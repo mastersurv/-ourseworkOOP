@@ -8,17 +8,18 @@ namespace Сoursework
 {
 	class Suppliers //Поставщики
 	{
-		List<string> supplier = new List<string>();
-		List<string> name_detail = new List<string>();
-		List<string> address = new List<string>();
-		List<string> phone_number = new List<string>();
+		string supplier;
+		string name_detail;
+		string address;
+		string phone_number;
 		private int count_suppliers; //количество поставщиков
-		private int lastreadstring;
 
-		public void ReadSupplierFromFile(string path)
+		public void ReadSupplierFromFileAndShow(string path)
 		{
 			StreamReader sr = new StreamReader(path);
 			int c = 0;
+			Console.ForegroundColor = ConsoleColor.DarkMagenta;
+			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
 			while (true)
 			{
 				string supinfo = sr.ReadLine();
@@ -27,29 +28,26 @@ namespace Сoursework
 					break;
 				}
 				string[] arrsupinfo = supinfo.Split('\t');
-				supplier.Add(arrsupinfo[0]);
-				name_detail.Add(arrsupinfo[1]);
-				address.Add(arrsupinfo[2]);
-				phone_number.Add(arrsupinfo[3]);
-				c++;
-			}
-			Console.ForegroundColor = ConsoleColor.DarkMagenta;
-			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
-			for (int i = 0; i < supplier.Count; i++)
-			{
+				supplier = arrsupinfo[0];
+				name_detail = arrsupinfo[1];
+				address = arrsupinfo[2];
+				phone_number = arrsupinfo[3];
+				
+				
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"Поставщик    {supplier[i]}");
+				Console.WriteLine($"Поставщик    {supplier}");
 				Console.ForegroundColor = ConsoleColor.White;
-				Console.WriteLine($"Деталь       {name_detail[i]}");
-				Console.WriteLine($"Адрес        {address[i]}");
-				Console.WriteLine($"Номер        {phone_number[i]}");
+				Console.WriteLine($"Деталь       {name_detail}");
+				Console.WriteLine($"Адрес        {address}");
+				Console.WriteLine($"Номер        {phone_number}");
 				Console.WriteLine();
+				
+				c++;
 			}
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			Console.WriteLine(new string('-', 63));
 			Console.ForegroundColor = ConsoleColor.White;
 			sr.Close();
-			count_suppliers = c;
 		}
 
 		public void ClearFileSuppliers(string path)
@@ -63,10 +61,10 @@ namespace Сoursework
 				Console.WriteLine("Все данные о поставщиках были успешно стёрты");
 				Console.ForegroundColor = ConsoleColor.White;
 				File.WriteAllText(path, String.Empty);
-				supplier.Clear();
-				name_detail.Clear();
-				address.Clear();
-				phone_number.Clear();
+				supplier = null;
+				name_detail = null;
+				address = null;
+				phone_number = null;
 			}
 			else
 			{
@@ -75,7 +73,6 @@ namespace Сoursework
 				Console.ForegroundColor = ConsoleColor.White;
 				return;
 			}
-			
 		}
 
 		public virtual void DeleteLastString(string path)
@@ -113,10 +110,6 @@ namespace Сoursework
 				if (certainty == "Да" || certainty == "да" || certainty == "д" || certainty == "Д" || certainty == "y")
 				{
 					DeleteLastString(path);
-					supplier.RemoveAt(supplier.Count - 1);
-					name_detail.RemoveAt(name_detail.Count - 1);
-					address.RemoveAt(address.Count - 1);
-					phone_number.RemoveAt(phone_number.Count - 1);
 				}
 				else
 					return;
@@ -188,10 +181,9 @@ namespace Сoursework
 			string inputphone = Console.ReadLine();
 			sw.Write(inputphone + '\t');
 
-			sr.Close();
 			sw.Close();
 		}
-		public virtual void Show()
+		/*public virtual void Show()
 		{
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
@@ -208,6 +200,6 @@ namespace Сoursework
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			Console.WriteLine(new string('-', 63));
 			Console.ForegroundColor = ConsoleColor.White;
-		}
+		}*/
 	}
 }

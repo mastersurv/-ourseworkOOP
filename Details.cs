@@ -57,7 +57,7 @@ namespace Сoursework
 
             sw.Close();
         }
-        public override void Show()
+        public  void Show()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n--------------------------Детали--------------------------\n");

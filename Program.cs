@@ -45,8 +45,8 @@ namespace Сoursework
 				else if (choose == 3)
 				{
 					Console.Clear();
-					sup.ReadSupplierFromFile(path_suppliers);
-					//3sup.Show();
+					sup.ReadSupplierFromFileAndShow(path_suppliers);
+					//sup.Show();
 				}
 				else if (choose == 4)
 				{
