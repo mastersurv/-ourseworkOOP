@@ -16,15 +16,24 @@ namespace Сoursework
 			while (true) 
             {
 				int choose;
-
-				Console.WriteLine("Меню");
+				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.WriteLine("		╔════════════════════╗");
+				Console.WriteLine("		║        Меню        ║");
+				Console.WriteLine("		╚════════════════════╝\n");
+				Console.ForegroundColor = ConsoleColor.DarkMagenta;
+				Console.WriteLine("|-----Поставщики-----|");
 				Console.WriteLine("Введите 1, чтобы добавить поставщика (вручную):");
 				Console.WriteLine("Введите 2, чтобы добавить поставщиков (считать из файла):");
 				Console.WriteLine("Введите 3, чтобы вывести информацию о поставщиках");
 				Console.WriteLine("Введите 4 для удаления данных о поставщиках");
 				Console.WriteLine("Введите 5 для удаления последнего поставщика");
-				Console.WriteLine("Введите 6, чтобы вывести информацию о деталях");
+				Console.ForegroundColor = ConsoleColor.Cyan;
+				Console.WriteLine("\n|-----Детали--------|");
+				Console.WriteLine("Введите 6, чтобы добавить детали (считать из файла):");
+				Console.WriteLine("Введите 7, чтобы вывести информацию о деталях");
+				Console.WriteLine("Введите 8 для удаления данных о деталях");
 				Console.WriteLine("Введите 0 для завершения программы");
+				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("~ ");
 				choose = Convert.ToInt32(Console.ReadLine());
 				if (choose == 0)
@@ -40,18 +49,18 @@ namespace Сoursework
 				else if (choose == 2)
 				{
 					Console.Clear();
-					sup.AddSupplierFromFile(base_suppliers, path_suppliers);
+					sup.AddInfoFromFile(base_suppliers, path_suppliers, "Данные о поставщиках" +
+					                                                    " были успешно добавлены");
 				}
 				else if (choose == 3)
 				{
 					Console.Clear();
 					sup.ReadSupplierFromFileAndShow(path_suppliers);
-					//sup.Show();
 				}
 				else if (choose == 4)
 				{
 					Console.Clear();
-					sup.ClearFileSuppliers(path_suppliers);
+					sup.ClearFile(path_suppliers, "Все данные о поставщиках стёрты.");
 				}
 				else if (choose == 5)
 				{
@@ -60,8 +69,19 @@ namespace Сoursework
 				}
 				else if (choose == 6)
 				{
-					detail.ReadDetailFromFile(path_details);
-					detail.Show();
+					Console.Clear();
+					detail.AddInfoFromFile(base_details, path_details, "Данные о деталях" +
+					                                                   " были успешно добавлены");
+				}
+				else if (choose == 7)
+				{
+					Console.Clear();
+					detail.ReadDetailFromFileAndShow(path_details);
+				}
+				else if (choose == 8)
+				{
+					Console.Clear();
+					detail.ClearFile(path_details, "Все данные о деталях стёрты.");
 				}
             }
 		}

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Сoursework
 {
-    class Supplies : Details //Поставки
+    class Supplies : Suppliers //Поставки
     {
         string supplier;
         string detail;

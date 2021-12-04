@@ -12,12 +12,52 @@ namespace Сoursework
 		string name_detail;
 		string address;
 		string phone_number;
-		private int count_suppliers; //количество поставщиков
+		
+		public Suppliers(){}
 
+		public Suppliers(string supplier, string name_detail, string address, string phone_number)
+		{
+			this.supplier = supplier;
+			this.name_detail = name_detail;
+			this.address = address;
+			this.phone_number = phone_number;
+		}
+
+		public string Supplier
+		{
+			get
+			{
+				return (supplier);
+			}
+		}
+
+		public string NameDetail
+		{
+			get
+			{
+				return (name_detail);
+			}
+		}
+
+		public string Address
+		{
+			get
+			{
+				return (address);
+			}
+		}
+
+		public string PhoneNumber
+		{
+			get
+			{
+				return (phone_number);
+			}
+		}
+		
 		public void ReadSupplierFromFileAndShow(string path)
 		{
 			StreamReader sr = new StreamReader(path);
-			int c = 0;
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
 			while (true)
@@ -33,7 +73,6 @@ namespace Сoursework
 				address = arrsupinfo[2];
 				phone_number = arrsupinfo[3];
 				
-				
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine($"Поставщик    {supplier}");
 				Console.ForegroundColor = ConsoleColor.White;
@@ -41,8 +80,6 @@ namespace Сoursework
 				Console.WriteLine($"Адрес        {address}");
 				Console.WriteLine($"Номер        {phone_number}");
 				Console.WriteLine();
-				
-				c++;
 			}
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			Console.WriteLine(new string('-', 63));
@@ -50,7 +87,7 @@ namespace Сoursework
 			sr.Close();
 		}
 
-		public void ClearFileSuppliers(string path)
+		public virtual void ClearFile(string path, string message)
 		{
 			int password;
 			Console.Write("Введите пароль: ");
@@ -58,13 +95,9 @@ namespace Сoursework
 			if (password == 2240)
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine("Все данные о поставщиках были успешно стёрты");
+				Console.WriteLine(message);
 				Console.ForegroundColor = ConsoleColor.White;
 				File.WriteAllText(path, String.Empty);
-				supplier = null;
-				name_detail = null;
-				address = null;
-				phone_number = null;
 			}
 			else
 			{
@@ -114,7 +147,7 @@ namespace Сoursework
 			}
 		}
 
-		public void AddSupplierFromFile(string basepath, string pathwhere)
+		public virtual void AddInfoFromFile(string basepath, string pathwhere, string message)
 		{
 			StreamReader sr = new StreamReader(basepath);
 			StreamReader sr1 = new StreamReader(pathwhere);
@@ -140,9 +173,13 @@ namespace Сoursework
 				}
 				checkfile = "Файл уже не пуст";
 			}
+
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine(message);
+			Console.ForegroundColor = ConsoleColor.White;
 			sw.Close();
 		}
-		public virtual void WriteToFile(string path)
+		public void WriteToFile(string path)
 		{
 			StreamReader sr = new StreamReader(path);
 			string checkfile = sr.ReadLine();
@@ -175,23 +212,5 @@ namespace Сoursework
 
 			sw.Close();
 		}
-		/*public virtual void Show()
-		{
-			Console.ForegroundColor = ConsoleColor.DarkMagenta;
-			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
-			for (int i = 0; i < count_suppliers; i++)
-			{
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"Поставщик    {supplier[i]}");
-				Console.ForegroundColor = ConsoleColor.White;
-				Console.WriteLine($"Деталь       {name_detail[i]}");
-				Console.WriteLine($"Адрес        {address[i]}");
-				Console.WriteLine($"Номер        {phone_number[i]}");
-				Console.WriteLine();
-			}
-			Console.ForegroundColor = ConsoleColor.DarkMagenta;
-			Console.WriteLine(new string('-', 63));
-			Console.ForegroundColor = ConsoleColor.White;
-		}*/
 	}
 }
