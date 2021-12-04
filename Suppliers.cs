@@ -75,28 +75,20 @@ namespace Сoursework
 			}
 		}
 
-		public virtual void DeleteLastString(string path)
+		public static void DeleteLastLine(string filepath)
 		{
-			StreamReader sr = new StreamReader(path);
-			string allstrings = sr.ReadToEnd();
-			Console.WriteLine('\n' + allstrings + '\n');
-			string[] arrstrings = allstrings.Split('\n');
+			StreamReader sr = new StreamReader(filepath);
+			string alllines = sr.ReadToEnd();
+			List <string> arrstring = new List<string>(alllines.Split('\n'));
+			int n = arrstring.Count - 1;
+			arrstring.RemoveAt(n);
+			alllines = String.Join("\n", arrstring.ToArray());
 			sr.Close();
-
-			StreamWriter sw = new StreamWriter(path);
-			for (int i = 0; i < arrstrings.Length - 1; i++)
-			{
-				if (i == arrstrings.Length - 2)
-				{
-					sw.Write(arrstrings[i]);
-				}
-				else
-				{
-					sw.WriteLine(arrstrings[i]);
-				}
-			}
+			StreamWriter sw = new StreamWriter(filepath);
+			sw.Write(alllines);
 			sw.Close();
 		}
+
 		public void ClearLastSupplier(string path)
 		{
 			Console.Write("Удалить последнего поставщика? ");
@@ -109,7 +101,7 @@ namespace Сoursework
 			{
 				if (certainty == "Да" || certainty == "да" || certainty == "д" || certainty == "Д" || certainty == "y")
 				{
-					DeleteLastString(path);
+					DeleteLastLine(path);
 				}
 				else
 					return;
