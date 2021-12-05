@@ -54,6 +54,16 @@ namespace Сoursework
             }
         }
 
+        public void ShowDetail(Details det)
+        {
+            Console.WriteLine($"Деталь      {det.NameDetail}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Артикул     {det.Article}");
+            Console.WriteLine($"Цена        {det.Price}");
+            Console.WriteLine($"Примечание  {det.Remark}");
+            Console.WriteLine();
+        }
+
         public void ReadDetailFromFileAndShow(string path)
         {
             StreamReader sr = new StreamReader(path);
@@ -79,7 +89,6 @@ namespace Сoursework
                 Console.WriteLine($"Цена        {price}");
                 Console.WriteLine($"Примечание  {remark}");
                 Console.WriteLine();
-                
             }
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(new string('-', 63));

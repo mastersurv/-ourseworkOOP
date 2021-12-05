@@ -16,6 +16,7 @@ namespace Сoursework
 			string path_details = "details.txt";
 			string base_suppliers = "basesuppliers.txt";
 			string base_details = "basedetails.txt";
+			string path_supplies = "supplies.txt";
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
 			Supplies supplies = new Supplies(path_suppliers, path_details);
@@ -118,7 +119,12 @@ namespace Сoursework
 					}
 					else if (purchasechoice == 2)
 					{
+						Console.Clear();
 						supplies.ShowAllDetails();
+						Console.Write("Введите артикул детали, которую хотите купить: ");
+						int article = Convert.ToInt32(Console.ReadLine());
+						Console.Clear();
+						supplies.BuyDetail(article, path_supplies);
 						PressAnyKeyToContinue();
 					}
 				}

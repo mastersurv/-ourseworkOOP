@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Сoursework
 {
-    class Supplies //Поставки
+    class Supplies : Details //Поставки
     {
         Suppliers sup;
         Details det;
@@ -56,6 +56,9 @@ namespace Сoursework
         
         public void ShowSuppliersForDetail(string namedetail)
         {
+            int indexdetail = SearchDetailByName(namedetail);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            ShowDetail(DetailsList[indexdetail]);
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"{namedetail} возможно купить у следующих поставщиков:\n");
             for (int i = 0; i < SuppliersList.Count; i++)
@@ -63,6 +66,7 @@ namespace Сoursework
                 if (SuppliersList[i].NameDetail == namedetail)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"№{i}");
                     Console.WriteLine($"Поставщик    {SuppliersList[i].Supplier}");
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine($"Адрес        {SuppliersList[i].Address}");
@@ -73,6 +77,18 @@ namespace Сoursework
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        public int SearchDetailByName(string name)
+        {
+            for (int i = 0; i < DetailsList.Count; i++)
+            {
+                if (DetailsList[i].NameDetail == name)
+                {
+                    return (i);
+                }
+            }
+
+            return (-1);
+        }
         public void ShowAllDetails()
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -80,13 +96,56 @@ namespace Сoursework
             for (int i = 0; i < DetailsList.Count; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Деталь      {DetailsList[i].NameDetail}");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"Артикул     {DetailsList[i].Article}");
-                Console.WriteLine($"Цена        {DetailsList[i].Price}");
-                Console.WriteLine($"Примечание  {DetailsList[i].Remark}");
-                Console.WriteLine();
+                ShowDetail(DetailsList[i]);
             }
+        }
+
+        public void BuyDetail(int article, string filepath)
+        {
+            Details purchasedDetails;
+            for (int i = 0; i < DetailsList.Count; i++)
+            {
+                if (DetailsList[i].Article == article)
+                {
+                    purchasedDetails = DetailsList[i];
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    ShowSuppliersForDetail(purchasedDetails.NameDetail);
+                    Console.Write("Введите номер поставщика: ");
+                    int number = Convert.ToInt32(Console.ReadLine());
+                    AddSupplieToFile(purchasedDetails, number, filepath);
+                    break;
+                }
+            }
+        }
+        
+        public void AddSupplieToFile(Details det, int number_supplier, string filepath)
+        {
+            StreamReader sr = new StreamReader(filepath);
+            string checkfile = sr.ReadLine();
+            sr.Close();
+
+            StreamWriter sw = new StreamWriter(filepath, true);
+            string sup = SuppliersList[number_supplier].Supplier;
+            if (checkfile == null || checkfile == "\n")
+            {
+                sw.Write(sup + '\t');
+            }
+            else
+            {
+                sw.Write('\n' + sup + '\t');
+            }
+
+            string detail = det.NameDetail;
+            sw.Write(detail + '\t');
+
+            string count = Console.ReadLine();
+            sw.Write(count + '\t');
+
+            Console.WriteLine("Телефон: ");
+            string date = Console.ReadLine();
+            sw.Write(date + '\t');
+            
+            sw.Close();
         }
     }
 }
