@@ -4,6 +4,12 @@ namespace Сoursework
 {
 	class Program
 	{
+		static void PressAnyKeyToContinue()
+		{
+			Console.Write("\nНажмите любую клавишу, чтобы продолжить...");
+			Console.ReadKey();
+			Console.Clear();
+		}
 		static void Main()
 		{
 			string path_suppliers = "suppliers.txt";
@@ -12,6 +18,7 @@ namespace Сoursework
 			string base_details = "basedetails.txt";
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
+			Supplies supplies = new Supplies(path_suppliers, path_details);
 			
 			while (true) 
             {
@@ -32,7 +39,15 @@ namespace Сoursework
 				Console.WriteLine("Введите 6, чтобы добавить детали (считать из файла):");
 				Console.WriteLine("Введите 7, чтобы вывести информацию о деталях");
 				Console.WriteLine("Введите 8 для удаления данных о деталях");
-				Console.WriteLine("Введите 0 для завершения программы");
+				Console.ForegroundColor = ConsoleColor.DarkGreen;
+				Console.WriteLine("\n|-----Закупка автозапчастей--------|");
+				Console.WriteLine("Введите 11, чтобы перейти в меню покупки деталей:");
+				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.Write("\nХ");
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Write(" Введите 0 для завершения программы");
+				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.Write(" Х\n");
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("~ ");
 				choose = Convert.ToInt32(Console.ReadLine());
@@ -56,6 +71,7 @@ namespace Сoursework
 				{
 					Console.Clear();
 					sup.ReadSupplierFromFileAndShow(path_suppliers);
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 4)
 				{
@@ -77,11 +93,34 @@ namespace Сoursework
 				{
 					Console.Clear();
 					detail.ReadDetailFromFileAndShow(path_details);
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 8)
 				{
 					Console.Clear();
 					detail.ClearFile(path_details, "Все данные о деталях стёрты.");
+				}
+				else if (choose == 11)
+				{
+					Console.Clear();
+					Console.ForegroundColor = ConsoleColor.DarkGreen;
+					int purchasechoice;
+					Console.WriteLine("Введите 1 если хотите конкретную деталь");
+					Console.WriteLine("Введите 2, чтобы увидеть список всех доступных деталей");
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.Write("~ ");
+					purchasechoice = Convert.ToInt32(Console.ReadLine());
+					if (purchasechoice == 1)
+					{
+						Console.Write("Введите название детали, которую хотите приобрести: ");
+						supplies.ShowSuppliersForDetail(Console.ReadLine());
+						PressAnyKeyToContinue();
+					}
+					else if (purchasechoice == 2)
+					{
+						supplies.ShowAllDetails();
+						PressAnyKeyToContinue();
+					}
 				}
             }
 		}

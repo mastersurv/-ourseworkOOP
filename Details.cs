@@ -21,9 +21,39 @@ namespace Сoursework
             this.price = price;
             this.remark = remark;
         }
-        
-        
-        
+
+        public override string NameDetail
+        {
+            get
+            {
+                return (name_detail);
+            }
+        }
+
+        public int Article
+        {
+            get
+            {
+                return (article);
+            }
+        }
+
+        public int Price
+        {
+            get
+            {
+                return (price);
+            }
+        }
+
+        public string Remark
+        {
+            get
+            {
+                return (remark);
+            }
+        }
+
         public void ReadDetailFromFileAndShow(string path)
         {
             StreamReader sr = new StreamReader(path);

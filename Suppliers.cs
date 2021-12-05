@@ -31,7 +31,7 @@ namespace Сoursework
 			}
 		}
 
-		public string NameDetail
+		public virtual string NameDetail
 		{
 			get
 			{
@@ -54,6 +54,7 @@ namespace Сoursework
 				return (phone_number);
 			}
 		}
+		
 		
 		public void ReadSupplierFromFileAndShow(string path)
 		{
