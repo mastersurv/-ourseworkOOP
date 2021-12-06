@@ -88,6 +88,11 @@ namespace Сoursework
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        public void FindArticleOfDetail(string name, out int article)
+        {
+            article = DetailsList[SearchDetailByName(name)].Article;
+        }
+
         public int SearchDetailByName(string name)
         {
             for (int i = 0; i < DetailsList.Count; i++)
@@ -97,7 +102,6 @@ namespace Сoursework
                     return (i);
                 }
             }
-
             return (-1);
         }
         public void ShowAllDetails() 
@@ -164,6 +168,34 @@ namespace Сoursework
             string detcount = Convert.ToString(Count);
             sw.Write(detcount + '\t');
 
+            Console.WriteLine("Введите дату, когда нужно доставить деталь: ");
+            Console.Write("Год: ");
+            int year = Convert.ToInt32(Console.ReadLine());
+            
+            Console.Write("Месяц (1-12): ");
+            int month = Convert.ToInt32(Console.ReadLine());
+            
+            Console.Write("День (1-31): ");
+            int day = Convert.ToInt32(Console.ReadLine());
+
+            try
+            {
+                DateTime inputdate = new DateTime(year, month, day);
+                DateTime today = DateTime.Today;
+                sw.Write(inputdate.ToLongDateString());
+                if (inputdate < today)
+                {
+                    throw new Exception("Дата не может быть раньше текущей!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"Ошибка: {e.Message}"); 
+                Console.ForegroundColor = ConsoleColor.White;
+                return;
+            }
+            
             sw.Close();
         }
     }

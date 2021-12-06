@@ -114,7 +114,11 @@ namespace Сoursework
 					if (purchasechoice == 1)
 					{
 						Console.Write("Введите название детали, которую хотите приобрести: ");
-						supplies.ShowSuppliersForDetail(Console.ReadLine());
+						string namedetail = Console.ReadLine();
+						int article = 0;
+						supplies.FindArticleOfDetail(namedetail, out article);
+						Console.Clear();
+						supplies.BuyDetail(article, path_supplies);
 						PressAnyKeyToContinue();
 					}
 					else if (purchasechoice == 2)
