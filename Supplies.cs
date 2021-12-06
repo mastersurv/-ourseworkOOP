@@ -14,7 +14,18 @@ namespace Сoursework
         
         private List<Suppliers> SuppliersList = new List<Suppliers>();
         private List<Details> DetailsList = new List<Details>();
-		
+
+        public int Count
+        {
+            get
+            {
+                return (count);
+            }
+            set
+            {
+                count = value;
+            }
+        }
         public Supplies(string filepathsuppliers, string filepathdetails)
         {
             string supplier = null;
@@ -89,7 +100,7 @@ namespace Сoursework
 
             return (-1);
         }
-        public void ShowAllDetails()
+        public void ShowAllDetails() 
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Список доступных деталей: ");
@@ -110,10 +121,22 @@ namespace Сoursework
                     purchasedDetails = DetailsList[i];
                     Console.ForegroundColor = ConsoleColor.Blue;
                     ShowSuppliersForDetail(purchasedDetails.NameDetail);
-                    Console.Write("Введите номер поставщика: ");
-                    int number = Convert.ToInt32(Console.ReadLine());
-                    AddSupplieToFile(purchasedDetails, number, filepath);
-                    break;
+                    try //Проверка на правильность ввода
+                    {
+                        Console.Write("Введите номер поставщика: ");
+                        int number = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Сколько деталей желаете приобрести?: ");
+                        int detcount = Convert.ToInt32(Console.ReadLine());
+                        Count = detcount;
+                        AddSupplieToFile(purchasedDetails, number, filepath);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine($"Ошибка: {e.Message}");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                 }
             }
         }
@@ -138,13 +161,9 @@ namespace Сoursework
             string detail = det.NameDetail;
             sw.Write(detail + '\t');
 
-            string count = Console.ReadLine();
-            sw.Write(count + '\t');
+            string detcount = Convert.ToString(Count);
+            sw.Write(detcount + '\t');
 
-            Console.WriteLine("Телефон: ");
-            string date = Console.ReadLine();
-            sw.Write(date + '\t');
-            
             sw.Close();
         }
     }
