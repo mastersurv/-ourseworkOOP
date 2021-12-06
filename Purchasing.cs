@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Сoursework
@@ -96,6 +95,7 @@ namespace Сoursework
 			}
 			sr.Close();
 			string totalsum = Convert.ToString(TotalSum);
+			TotalSum = 0;
 			printLinewithColor(totalsum,"Итого: ");
 		}
 	}

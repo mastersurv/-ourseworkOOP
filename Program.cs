@@ -10,6 +10,26 @@ namespace Сoursework
 			Console.ReadKey();
 			Console.Clear();
 		}
+
+		static bool ErorCheckAvailDetail(bool canwebuydetail)
+		{
+			try
+			{
+				if (!canwebuydetail)
+				{
+					throw new Exception("Данную деталь невозможно заказать!");
+				}
+			}
+			catch (Exception e)
+			{
+				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.WriteLine($"Ошибка: {e.Message}"); 
+				Console.ForegroundColor = ConsoleColor.White;
+				return (false);
+			}
+
+			return (true);
+		}
 		static void Main()
 		{
 			string path_suppliers = "suppliers.txt";
@@ -29,7 +49,7 @@ namespace Сoursework
 				Console.WriteLine("		╔════════════════════╗");
 				Console.WriteLine("		║        Меню        ║");
 				Console.WriteLine("		╚════════════════════╝\n");
-				Console.ForegroundColor = ConsoleColor.DarkMagenta;
+				Console.ForegroundColor = ConsoleColor.Magenta;
 				Console.WriteLine("|-----Поставщики-----|");
 				Console.WriteLine("Введите 1, чтобы добавить поставщика (вручную):");
 				Console.WriteLine("Введите 2, чтобы добавить поставщиков (считать из файла):");
@@ -129,6 +149,14 @@ namespace Сoursework
 					{
 						Console.Write("Введите название детали, которую хотите приобрести: ");
 						string namedetail = Console.ReadLine();
+						
+						bool canwebuydetail = supplies.CheckDetailAvailability(namedetail);
+						bool availability = ErorCheckAvailDetail(canwebuydetail);
+						if (!availability)
+						{
+							continue;
+						}
+						
 						int article = 0;
 						supplies.FindArticleOfDetail(namedetail, out article);
 						Console.Clear();
@@ -141,6 +169,15 @@ namespace Сoursework
 						supplies.ShowAllDetails();
 						Console.Write("Введите артикул детали, которую хотите купить: ");
 						int article = Convert.ToInt32(Console.ReadLine());
+						string namedetail = supplies.SearchDetailByArticle(article);
+						
+						bool canwebuydetail = supplies.CheckDetailAvailability(namedetail);
+						bool availability = ErorCheckAvailDetail(canwebuydetail);
+						if (!availability)
+						{
+							continue;
+						}
+						
 						Console.Clear();
 						supplies.BuyDetail(article, path_supplies);
 						PressAnyKeyToContinue();
@@ -149,6 +186,9 @@ namespace Сoursework
 				else if (choose == 12)
 				{
 					Console.Clear();
+					Console.ForegroundColor = ConsoleColor.DarkGreen;
+					Console.WriteLine("Данные о поставках были успешно добавлены");
+					Console.ForegroundColor = ConsoleColor.White;
 					purchoice.CostOfEachSupplie(path_supplies, accountfile);
 				}
 				else if (choose == 13)

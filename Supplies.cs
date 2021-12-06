@@ -102,7 +102,34 @@ namespace Сoursework
                     return (i);
                 }
             }
+            
             return (-1);
+        }
+
+        public string SearchDetailByArticle(int article)
+        {
+            for (int i = 0; i < DetailsList.Count; i++)
+            {
+                if (DetailsList[i].Article == article)
+                {
+                    return (DetailsList[i].NameDetail);
+                }
+            }
+
+            return "";
+        }
+
+        public bool CheckDetailAvailability(string name)
+        {
+            for (int i = 0; i < SuppliersList.Count; i++)
+            {
+                if (SuppliersList[i].NameDetail == name)
+                {
+                    return (true);
+                }
+            }
+
+            return (false);
         }
         public void ShowAllDetails() 
         {
