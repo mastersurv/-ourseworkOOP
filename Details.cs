@@ -78,8 +78,8 @@ namespace Сoursework
                 }
                 string[] arrdetailinfo = detail_info.Split('\t');
                 name_detail = arrdetailinfo[0];
-                article = Convert.ToInt32(arrdetailinfo[1]);
-                price = Convert.ToInt32(arrdetailinfo[2]);
+                Int32.TryParse(arrdetailinfo[1], out article);
+                Int32.TryParse(arrdetailinfo[2], out price);
                 remark = arrdetailinfo[3];
                 
                 Console.ForegroundColor = ConsoleColor.Red;

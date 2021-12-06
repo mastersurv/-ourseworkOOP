@@ -12,8 +12,8 @@ namespace Сoursework
         int count;
         string date;
         
-        private List<Suppliers> SuppliersList = new List<Suppliers>();
-        private List<Details> DetailsList = new List<Details>();
+        protected List<Suppliers> SuppliersList = new List<Suppliers>();
+        protected List<Details> DetailsList = new List<Details>();
 
         public int Count
         {
@@ -56,8 +56,8 @@ namespace Сoursework
             {
                 string[] arrdetailinfo = info.ReadLine().Split('\t');
                 detail = arrdetailinfo[0];
-                article = Convert.ToInt32(arrdetailinfo[1]);
-                price = Convert.ToInt32(arrdetailinfo[2]);
+                Int32.TryParse(arrdetailinfo[1], out article);
+                Int32.TryParse(arrdetailinfo[2], out price);
                 remark = arrdetailinfo[3];
                 det = new Details(detail, article, price, remark);
                 DetailsList.Add(det);
@@ -195,7 +195,6 @@ namespace Сoursework
                 Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
-            
             sw.Close();
         }
     }

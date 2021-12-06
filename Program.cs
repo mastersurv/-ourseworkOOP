@@ -17,14 +17,15 @@ namespace Сoursework
 			string base_suppliers = "basesuppliers.txt";
 			string base_details = "basedetails.txt";
 			string path_supplies = "supplies.txt";
+			string accountfile = "account.txt";
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
 			Supplies supplies = new Supplies(path_suppliers, path_details);
+			Purchasing purchoice = new Purchasing(path_suppliers, path_details);
 			
 			while (true) 
             {
-				int choose;
-				Console.ForegroundColor = ConsoleColor.Blue;
+	            Console.ForegroundColor = ConsoleColor.Blue;
 				Console.WriteLine("		╔════════════════════╗");
 				Console.WriteLine("		║        Меню        ║");
 				Console.WriteLine("		╚════════════════════╝\n");
@@ -43,6 +44,11 @@ namespace Сoursework
 				Console.ForegroundColor = ConsoleColor.DarkGreen;
 				Console.WriteLine("\n|-----Закупка автозапчастей--------|");
 				Console.WriteLine("Введите 11, чтобы перейти в меню покупки деталей:");
+				Console.ForegroundColor = ConsoleColor.DarkYellow;
+				Console.WriteLine("\n|-----$Отчёт$--------|");
+				Console.WriteLine("Введите 12, чтобы добавить данные о закупках в отчёт:");
+				Console.WriteLine("Введите 13, чтобы вывести отчёт о закупке:");
+				Console.WriteLine("Введите 14 для удаления данных о поставках");
 				Console.ForegroundColor = ConsoleColor.DarkRed;
 				Console.Write("\nХ");
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -51,7 +57,15 @@ namespace Сoursework
 				Console.Write(" Х\n");
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("~ ");
-				choose = Convert.ToInt32(Console.ReadLine());
+				int choose;
+				bool check = Int32.TryParse(Console.ReadLine(), out choose);
+				if (!check)
+				{
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+					Console.WriteLine("Нет такого пункта меню");
+					Console.ForegroundColor = ConsoleColor.White;
+					continue;
+				}
 				if (choose == 0)
                 {
 					Console.WriteLine("Программа завершена.");
@@ -131,6 +145,22 @@ namespace Сoursework
 						supplies.BuyDetail(article, path_supplies);
 						PressAnyKeyToContinue();
 					}
+				}
+				else if (choose == 12)
+				{
+					Console.Clear();
+					purchoice.CostOfEachSupplie(path_supplies, accountfile);
+				}
+				else if (choose == 13)
+				{
+					Console.Clear();
+					purchoice.PrintAccount(accountfile);
+					PressAnyKeyToContinue();
+				}
+				else if (choose == 14)
+				{
+					Console.Clear();
+					purchoice.ClearFile(accountfile, "Все данные о поставках стёрты.");
 				}
             }
 		}

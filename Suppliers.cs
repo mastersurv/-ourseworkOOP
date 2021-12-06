@@ -88,11 +88,12 @@ namespace Сoursework
 			sr.Close();
 		}
 
-		public virtual void ClearFile(string path, string message)
+		public void ClearFile(string path, string message)
 		{
 			int password;
 			Console.Write("Введите пароль: ");
-			password = Convert.ToInt32(Console.ReadLine());
+			// password = Convert.ToInt32(Console.ReadLine());
+			Int32.TryParse(Console.ReadLine(), out password);
 			if (password == 2240)
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
@@ -136,9 +137,17 @@ namespace Сoursework
 				if (certainty == "Да" || certainty == "да" || certainty == "д" || certainty == "Д" || certainty == "y")
 				{
 					DeleteLastLine(path);
+					Console.ForegroundColor = ConsoleColor.Green;
+					Console.WriteLine("Последний поставщик был удалён");
+					Console.ForegroundColor = ConsoleColor.White;
 				}
 				else
+				{
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+					Console.WriteLine("Введите Да/да/д/Д/y чтобы удалить последнего поставщика");
+					Console.ForegroundColor = ConsoleColor.White;
 					return;
+				}
 			}
 			else
 			{
@@ -166,11 +175,11 @@ namespace Сoursework
 				}
 				if (checkfile == null || checkfile == "\n")
 				{
-					sw.Write(readbase + '\t');
+					sw.Write(readbase);
 				}
 				else
 				{
-					sw.Write('\n' + readbase + '\t');
+					sw.Write('\n' + readbase);
 				}
 				checkfile = "Файл уже не пуст";
 			}
