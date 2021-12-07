@@ -11,7 +11,7 @@ namespace Сoursework
 			Console.Clear();
 		}
 
-		static bool ErorCheckAvailDetail(bool canwebuydetail)
+		static bool ErrorCheckAvailDetail(bool canwebuydetail)
 		{
 			try
 			{
@@ -42,14 +42,15 @@ namespace Сoursework
 			Details detail = new Details();
 			Supplies supplies = new Supplies(path_suppliers, path_details);
 			Purchasing purchoice = new Purchasing(path_suppliers, path_details);
+			ClearAndReadFiles carf = new ClearAndReadFiles();
 			
-			while (true) 
-            {
-	            Console.ForegroundColor = ConsoleColor.Blue;
+			while (true)
+			{
+				Console.ForegroundColor = ConsoleColor.Yellow;
 				Console.WriteLine("		╔════════════════════╗");
 				Console.WriteLine("		║        Меню        ║");
 				Console.WriteLine("		╚════════════════════╝\n");
-				Console.ForegroundColor = ConsoleColor.Magenta;
+				Console.ForegroundColor = ConsoleColor.White;
 				Console.WriteLine("|-----Поставщики-----|");
 				Console.WriteLine("Введите 1, чтобы добавить поставщика (вручную):");
 				Console.WriteLine("Введите 2, чтобы добавить поставщиков (считать из файла):");
@@ -61,7 +62,7 @@ namespace Сoursework
 				Console.WriteLine("Введите 6, чтобы добавить детали (считать из файла):");
 				Console.WriteLine("Введите 7, чтобы вывести информацию о деталях");
 				Console.WriteLine("Введите 8 для удаления данных о деталях");
-				Console.ForegroundColor = ConsoleColor.DarkGreen;
+				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("\n|-----Закупка автозапчастей--------|");
 				Console.WriteLine("Введите 11, чтобы перейти в меню покупки деталей:");
 				Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -69,12 +70,8 @@ namespace Сoursework
 				Console.WriteLine("Введите 12, чтобы добавить данные о закупках в отчёт:");
 				Console.WriteLine("Введите 13, чтобы вывести отчёт о закупке:");
 				Console.WriteLine("Введите 14 для удаления данных о поставках");
-				Console.ForegroundColor = ConsoleColor.DarkRed;
-				Console.Write("\nХ");
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.Write(" Введите 0 для завершения программы");
-				Console.ForegroundColor = ConsoleColor.DarkRed;
-				Console.Write(" Х\n");
+				Console.Write("\nХ Введите 0 для завершения программы Х\n");
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("~ ");
 				int choose;
@@ -99,7 +96,7 @@ namespace Сoursework
 				else if (choose == 2)
 				{
 					Console.Clear();
-					sup.AddInfoFromFile(base_suppliers, path_suppliers, "Данные о поставщиках" +
+					carf.AddInfoFromFile(base_suppliers, path_suppliers, "Данные о поставщиках" +
 					                                                    " были успешно добавлены");
 				}
 				else if (choose == 3)
@@ -111,7 +108,7 @@ namespace Сoursework
 				else if (choose == 4)
 				{
 					Console.Clear();
-					sup.ClearFile(path_suppliers, "Все данные о поставщиках стёрты.");
+					carf.ClearFile(path_suppliers, "Все данные о поставщиках стёрты.");
 				}
 				else if (choose == 5)
 				{
@@ -121,7 +118,7 @@ namespace Сoursework
 				else if (choose == 6)
 				{
 					Console.Clear();
-					detail.AddInfoFromFile(base_details, path_details, "Данные о деталях" +
+					carf.AddInfoFromFile(base_details, path_details, "Данные о деталях" +
 					                                                   " были успешно добавлены");
 				}
 				else if (choose == 7)
@@ -133,7 +130,7 @@ namespace Сoursework
 				else if (choose == 8)
 				{
 					Console.Clear();
-					detail.ClearFile(path_details, "Все данные о деталях стёрты.");
+					carf.ClearFile(path_details, "Все данные о деталях стёрты.");
 				}
 				else if (choose == 11)
 				{
@@ -151,7 +148,7 @@ namespace Сoursework
 						string namedetail = Console.ReadLine();
 						
 						bool canwebuydetail = supplies.CheckDetailAvailability(namedetail);
-						bool availability = ErorCheckAvailDetail(canwebuydetail);
+						bool availability = ErrorCheckAvailDetail(canwebuydetail);
 						if (!availability)
 						{
 							continue;
@@ -168,11 +165,12 @@ namespace Сoursework
 						Console.Clear();
 						supplies.ShowAllDetails();
 						Console.Write("Введите артикул детали, которую хотите купить: ");
-						int article = Convert.ToInt32(Console.ReadLine());
+						int article;
+						Int32.TryParse(Console.ReadLine(), out article);
 						string namedetail = supplies.SearchDetailByArticle(article);
 						
 						bool canwebuydetail = supplies.CheckDetailAvailability(namedetail);
-						bool availability = ErorCheckAvailDetail(canwebuydetail);
+						bool availability = ErrorCheckAvailDetail(canwebuydetail);
 						if (!availability)
 						{
 							continue;
@@ -200,7 +198,7 @@ namespace Сoursework
 				else if (choose == 14)
 				{
 					Console.Clear();
-					purchoice.ClearFile(accountfile, "Все данные о поставках стёрты.");
+					carf.ClearFile(accountfile, "Все данные о поставках стёрты.");
 				}
             }
 		}

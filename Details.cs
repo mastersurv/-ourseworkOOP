@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Сoursework
 {
-    class Details : Suppliers
+    class Details
     {
         string name_detail;
         private int article; //артикул (англ. от изделие/вещь)
@@ -22,7 +22,7 @@ namespace Сoursework
             this.remark = remark;
         }
 
-        public override string NameDetail
+        public string NameDetail
         {
             get
             {
