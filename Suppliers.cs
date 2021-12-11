@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using ConsoleTables;
 
 namespace Сoursework
 {
@@ -57,8 +58,10 @@ namespace Сoursework
 		public void ReadSupplierFromFileAndShow(string path)
 		{
 			StreamReader sr = new StreamReader(path);
-			Console.ForegroundColor = ConsoleColor.DarkMagenta;
-			Console.WriteLine("\n--------------------------Поставщики--------------------------\n");
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine('\n' + new string('-', 50) + "Поставщики" + new string('-', 50) + '\n');
+			Console.ForegroundColor = ConsoleColor.White;
+			var table = new ConsoleTable("Поставщик", "Деталь", "Адрес", "Номер");
 			while (true)
 			{
 				string supinfo = sr.ReadLine();
@@ -71,17 +74,11 @@ namespace Сoursework
 				name_detail = arrsupinfo[1];
 				address = arrsupinfo[2];
 				phone_number = arrsupinfo[3];
-				
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"Поставщик    {supplier}");
-				Console.ForegroundColor = ConsoleColor.White;
-				Console.WriteLine($"Деталь       {name_detail}");
-				Console.WriteLine($"Адрес        {address}");
-				Console.WriteLine($"Номер        {phone_number}");
-				Console.WriteLine();
+				table.AddRow(supplier, name_detail, address, phone_number);
 			}
-			Console.ForegroundColor = ConsoleColor.DarkMagenta;
-			Console.WriteLine(new string('-', 63));
+			table.Write(Format.Default);
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine(new string('-', 110));
 			Console.ForegroundColor = ConsoleColor.White;
 			sr.Close();
 		}
@@ -119,15 +116,13 @@ namespace Сoursework
 				}
 				else
 				{
-					Console.ForegroundColor = ConsoleColor.DarkRed;
 					Console.WriteLine("Введите Да/да/д/Д/y чтобы удалить последнего поставщика");
-					Console.ForegroundColor = ConsoleColor.White;
 					return;
 				}
 			}
 			else
 			{
-				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("Файл пуст!");
 				Console.ForegroundColor = ConsoleColor.White;
 			}
@@ -163,6 +158,9 @@ namespace Сoursework
 			Console.WriteLine("Телефон: ");
 			string inputphone = Console.ReadLine();
 			sw.Write(inputphone + '\t');
+
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine("Поставщик был успешно добавлен.");
 
 			sw.Close();
 		}

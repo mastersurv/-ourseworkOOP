@@ -68,7 +68,7 @@ namespace Сoursework
         {
             StreamReader sr = new StreamReader(path);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\n----------------------------Детали-----------------------------\n");
+            Console.WriteLine('\n' + new string('-', 50) + "Детали" + new string('-', 50) + '\n');
             while (true)
             {
                 string detail_info = sr.ReadLine();
@@ -82,7 +82,7 @@ namespace Сoursework
                 Int32.TryParse(arrdetailinfo[2], out price);
                 remark = arrdetailinfo[3];
                 
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Деталь      {name_detail}");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"Артикул     {article}");
@@ -91,7 +91,7 @@ namespace Сoursework
                 Console.WriteLine();
             }
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(new string('-', 63));
+            Console.WriteLine(new string('-', 110));
             Console.ForegroundColor = ConsoleColor.White;
             sr.Close();
         }

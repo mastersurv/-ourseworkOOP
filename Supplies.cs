@@ -164,7 +164,7 @@ namespace Сoursework
                     }
                     catch (Exception e)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Ошибка: {e.Message}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
@@ -196,7 +196,7 @@ namespace Сoursework
             sw.Write(detcount + '\t');
 
             Console.WriteLine("Введите дату, когда нужно доставить деталь: ");
-            Console.Write("Год: ");
+            Console.Write("Год (2021): ");
             int year = Convert.ToInt32(Console.ReadLine());
             
             Console.Write("Месяц (1-12): ");
@@ -209,19 +209,25 @@ namespace Сoursework
             {
                 DateTime inputdate = new DateTime(year, month, day);
                 DateTime today = DateTime.Today;
-                sw.Write(inputdate.ToLongDateString());
+                sw.Write(inputdate.ToLongDateString() + '\t');
                 if (inputdate < today)
                 {
                     throw new Exception("Дата не может быть раньше текущей!");
                 }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nЗапчасти были успешно заказаны!");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Ошибка: {e.Message}"); 
                 Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
+            sw.Write(det.Price);
+            
             sw.Close();
         }
     }

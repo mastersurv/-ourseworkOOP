@@ -41,8 +41,9 @@ namespace Сoursework
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
 			Supplies supplies = new Supplies(path_suppliers, path_details);
-			Purchasing purchoice = new Purchasing(path_suppliers, path_details);
+			Account purchoice = new Account(path_suppliers, path_details);
 			ClearAndReadFiles carf = new ClearAndReadFiles();
+			bool version_account = false;
 			
 			while (true)
 			{
@@ -50,28 +51,32 @@ namespace Сoursework
 				Console.WriteLine("		╔════════════════════╗");
 				Console.WriteLine("		║        Меню        ║");
 				Console.WriteLine("		╚════════════════════╝\n");
+				
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.WriteLine("|-----Поставщики-----|");
-				Console.WriteLine("Введите 1, чтобы добавить поставщика (вручную):");
-				Console.WriteLine("Введите 2, чтобы добавить поставщиков (считать из файла):");
-				Console.WriteLine("Введите 3, чтобы вывести информацию о поставщиках");
-				Console.WriteLine("Введите 4 для удаления данных о поставщиках");
-				Console.WriteLine("Введите 5 для удаления последнего поставщика");
+				Console.WriteLine("1 - добавить поставщика (вручную):");
+				Console.WriteLine("2 - добавить поставщиков (считать из файла):");
+				Console.WriteLine("3 - вывести информацию о поставщиках");
+				Console.WriteLine("4 - удалить данные о поставщиках");
+				Console.WriteLine("5 - удалить последнего поставщика");
+				
 				Console.ForegroundColor = ConsoleColor.Cyan;
 				Console.WriteLine("\n|-----Детали--------|");
-				Console.WriteLine("Введите 6, чтобы добавить детали (считать из файла):");
-				Console.WriteLine("Введите 7, чтобы вывести информацию о деталях");
-				Console.WriteLine("Введите 8 для удаления данных о деталях");
+				Console.WriteLine("6 - добавить детали (считать из файла):");
+				Console.WriteLine("7 - вывести информацию о деталях");
+				Console.WriteLine("8 - удалить данных о деталях");
+				
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("\n|-----Закупка автозапчастей--------|");
-				Console.WriteLine("Введите 11, чтобы перейти в меню покупки деталей:");
+				Console.WriteLine("11 - перейти в меню покупки деталей:");
+				
 				Console.ForegroundColor = ConsoleColor.DarkYellow;
 				Console.WriteLine("\n|-----$Отчёт$--------|");
-				Console.WriteLine("Введите 12, чтобы добавить данные о закупках в отчёт:");
-				Console.WriteLine("Введите 13, чтобы вывести отчёт о закупке:");
-				Console.WriteLine("Введите 14 для удаления данных о поставках");
+				Console.WriteLine("12 - вывести отчёт о заказах:");
+				Console.WriteLine("13 - удалить данные о заказах");
+				
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.Write("\nХ Введите 0 для завершения программы Х\n");
+				Console.Write("\nХ 0 - завершить программу Х\n");
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("~ ");
 				int choose;
@@ -92,6 +97,8 @@ namespace Сoursework
                 {
 	                Console.Clear();
 					sup.WriteToFile(path_suppliers);
+					Console.ForegroundColor = ConsoleColor.White;
+					PressAnyKeyToContinue();
                 }
 				else if (choose == 2)
 				{
@@ -184,21 +191,13 @@ namespace Сoursework
 				else if (choose == 12)
 				{
 					Console.Clear();
-					Console.ForegroundColor = ConsoleColor.DarkGreen;
-					Console.WriteLine("Данные о поставках были успешно добавлены");
-					Console.ForegroundColor = ConsoleColor.White;
-					purchoice.CostOfEachSupplie(path_supplies, accountfile);
+					purchoice.PrintAccount(path_supplies);
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 13)
 				{
 					Console.Clear();
-					purchoice.PrintAccount(accountfile);
-					PressAnyKeyToContinue();
-				}
-				else if (choose == 14)
-				{
-					Console.Clear();
-					carf.ClearFile(accountfile, "Все данные о поставках стёрты.");
+					carf.ClearFile(accountfile, "Все данные о заказах стёрты.");
 				}
             }
 		}
