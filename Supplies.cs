@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ConsoleTables;
 
 namespace Сoursework
 {
-    class Supplies : Details //Поставки
+    class Supplies //Поставки
     {
         Suppliers sup;
         Details det;
@@ -50,6 +51,7 @@ namespace Сoursework
             int article = 0; 
             int price = 0;
             string remark = null;
+            int in_warehouse = 0;
             info = new StreamReader(filepathdetails);
 			
             while (!(info.EndOfStream))
@@ -58,13 +60,24 @@ namespace Сoursework
                 detail = arrdetailinfo[0];
                 Int32.TryParse(arrdetailinfo[1], out article);
                 Int32.TryParse(arrdetailinfo[2], out price);
+                Int32.TryParse(arrdetailinfo[4], out in_warehouse);
                 remark = arrdetailinfo[3];
-                det = new Details(detail, article, price, remark);
+                det = new Details(detail, article, price, remark, in_warehouse);
                 DetailsList.Add(det);
             }
             info.Close();
         }
         
+        public void ShowDetail(Details det)
+        {
+            Console.WriteLine($"Деталь      {det.NameDetail}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Артикул     {det.Article}");
+            Console.WriteLine($"Цена        {det.Price}");
+            Console.WriteLine($"Примечание  {det.Remark}");
+            Console.WriteLine($"На складе   {det.InWarehouse}");
+            Console.WriteLine();
+        }
         public void ShowSuppliersForDetail(string namedetail)
         {
             int indexdetail = SearchDetailByName(namedetail);
@@ -133,16 +146,46 @@ namespace Сoursework
         }
         public void ShowAllDetails() 
         {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Список доступных деталей: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            
+            var table = new ConsoleTable("Деталь", "Артикул", "Цена", "На складе");
             for (int i = 0; i < DetailsList.Count; i++)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                ShowDetail(DetailsList[i]);
+                table.AddRow(DetailsList[i].NameDetail, DetailsList[i].Article, DetailsList[i].Price, DetailsList[i].InWarehouse);
             }
+            table.Write(Format.Alternative);
         }
 
-        public void BuyDetail(int article, string filepath)
+        static void IncreaseCount(string path_detail, int add_deatils, string namedetail)
+        {
+            StreamReader sr = new StreamReader(path_detail);
+            string need_replace = null;
+            string new_line = null;
+
+            while (!(sr.EndOfStream))
+            {
+                string line = sr.ReadLine();
+                string[] arrinfo = line.Split('\t');
+
+                if (arrinfo[0] == namedetail)
+                {
+                    sr.Close();
+                    need_replace = line;
+                    int currentcount = Convert.ToInt32(arrinfo[4]);
+                    currentcount += add_deatils;
+                    new_line = $"{arrinfo[0]}\t{arrinfo[1]}\t{arrinfo[2]}\t{arrinfo[3]}\t{Convert.ToString(currentcount)}";
+                    break;
+                }
+            }
+            
+            var fileContents = System.IO.File.ReadAllText(path_detail);
+            fileContents = fileContents.Replace(need_replace, new_line);
+            System.IO.File.WriteAllText(path_detail, fileContents);
+        }
+        
+        public void BuyDetail(int article, string filepath, string path_detail)
         {
             Details purchasedDetails;
             for (int i = 0; i < DetailsList.Count; i++)
@@ -156,9 +199,30 @@ namespace Сoursework
                     {
                         Console.Write("Введите номер поставщика: ");
                         int number = Convert.ToInt32(Console.ReadLine());
+
+                        bool flag = false;
+                        for (int j = 0; j < SuppliersList.Count; j++)
+                        {
+                            if (SuppliersList[j].NameDetail == purchasedDetails.NameDetail)
+                            {
+                                if (j == number)
+                                    flag = true;
+                            }
+                        }
+
+                        if (!flag)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("\nНеправильно введён номер поставщика.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            return;
+                        }
                         Console.Write("Сколько деталей желаете приобрести?: ");
                         int detcount = Convert.ToInt32(Console.ReadLine());
                         Count = detcount;
+                        IncreaseCount(path_detail, Count, DetailsList[i].NameDetail);
+                        purchasedDetails.InWarehouse += Count;
+                        
                         AddSupplieToFile(purchasedDetails, number, filepath);
                         break;
                     }

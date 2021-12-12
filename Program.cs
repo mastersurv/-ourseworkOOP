@@ -40,7 +40,7 @@ namespace Сoursework
 			string path_supplies = "supplies.txt";
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
-			Account purchoice = new Account(path_suppliers, path_details);
+			Account purchoice = new Account();
 			ClearAndReadFiles carf = new ClearAndReadFiles();
 			bool version_account = false;
 			
@@ -154,7 +154,15 @@ namespace Сoursework
 					Console.WriteLine("Введите 2, чтобы увидеть список всех доступных деталей");
 					Console.ForegroundColor = ConsoleColor.White;
 					Console.Write("~ ");
-					purchasechoice = Convert.ToInt32(Console.ReadLine());
+					bool checkpur = Int32.TryParse(Console.ReadLine(), out purchasechoice);
+					if (!checkpur)
+					{
+						Console.ForegroundColor = ConsoleColor.Red;
+						Console.WriteLine("Нет такого пункта меню");
+						Console.ForegroundColor = ConsoleColor.White;
+						PressAnyKeyToContinue();
+						continue;
+					}
 					if (purchasechoice == 1)
 					{
 						Console.Write("Введите название детали, которую хотите приобрести: ");
@@ -164,13 +172,14 @@ namespace Сoursework
 						bool availability = ErrorCheckAvailDetail(canwebuydetail);
 						if (!availability)
 						{
+							PressAnyKeyToContinue();
 							continue;
 						}
 						
 						int article = 0;
 						supplies.FindArticleOfDetail(namedetail, out article);
 						Console.Clear();
-						supplies.BuyDetail(article, path_supplies);
+						supplies.BuyDetail(article, path_supplies, path_details);
 						PressAnyKeyToContinue();
 					}
 					else if (purchasechoice == 2)
@@ -178,8 +187,20 @@ namespace Сoursework
 						Console.Clear();
 						supplies.ShowAllDetails();
 						Console.Write("Введите артикул детали, которую хотите купить: ");
-						int article;
-						Int32.TryParse(Console.ReadLine(), out article);
+						int article = 0;
+						try
+						{
+							article = Convert.ToInt32(Console.ReadLine());
+						}
+						catch (Exception e)
+						{
+							Console.ForegroundColor = ConsoleColor.Red;
+							Console.WriteLine($"Ошибка: {e.Message}");
+							Console.ForegroundColor = ConsoleColor.White;
+							PressAnyKeyToContinue();
+							continue;
+						}
+						
 						string namedetail = supplies.SearchDetailByArticle(article);
 						
 						bool canwebuydetail = supplies.CheckDetailAvailability(namedetail);
@@ -191,7 +212,7 @@ namespace Сoursework
 						}
 						
 						Console.Clear();
-						supplies.BuyDetail(article, path_supplies);
+						supplies.BuyDetail(article, path_supplies, path_details);
 						PressAnyKeyToContinue();
 					}
 				}

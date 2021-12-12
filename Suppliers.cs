@@ -54,7 +54,6 @@ namespace Сoursework
 			}
 		}
 		
-		
 		public void ReadSupplierFromFileAndShow(string path)
 		{
 			StreamReader sr = new StreamReader(path);
@@ -76,7 +75,7 @@ namespace Сoursework
 				phone_number = arrsupinfo[3];
 				table.AddRow(supplier, name_detail, address, phone_number);
 			}
-			table.Write(Format.Default);
+			table.Write(Format.Alternative);
 			Console.ForegroundColor = ConsoleColor.Cyan;
 			Console.WriteLine(new string('-', 110));
 			Console.ForegroundColor = ConsoleColor.White;

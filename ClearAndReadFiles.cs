@@ -20,7 +20,7 @@ namespace Сoursework
 			}
 			else
 			{
-				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("Неверный пароль");
 				Console.ForegroundColor = ConsoleColor.White;
 				return;

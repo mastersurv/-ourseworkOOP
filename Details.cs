@@ -11,15 +11,17 @@ namespace Сoursework
         private int article; //артикул (англ. от изделие/вещь)
         private int price;
         string remark; //примечание
+        private int in_warehouse; //количество на складе (купленных)
         
         public Details(){}
 
-        public Details(string name_detail, int article, int price, string remark)
+        public Details(string name_detail, int article, int price, string remark, int in_warehouse)
         {
             this.name_detail = name_detail;
             this.article = article;
             this.price = price;
             this.remark = remark;
+            this.in_warehouse = in_warehouse;
         }
 
         public string NameDetail
@@ -54,14 +56,16 @@ namespace Сoursework
             }
         }
 
-        public void ShowDetail(Details det)
+        public int InWarehouse
         {
-            Console.WriteLine($"Деталь      {det.NameDetail}");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"Артикул     {det.Article}");
-            Console.WriteLine($"Цена        {det.Price}");
-            Console.WriteLine($"Примечание  {det.Remark}");
-            Console.WriteLine();
+            get
+            {
+                return (in_warehouse);
+            }
+            set
+            {
+                in_warehouse = value;
+            }
         }
 
         public void ReadDetailFromFileAndShow(string path)
@@ -81,6 +85,7 @@ namespace Сoursework
                 Int32.TryParse(arrdetailinfo[1], out article);
                 Int32.TryParse(arrdetailinfo[2], out price);
                 remark = arrdetailinfo[3];
+                in_warehouse = 0;
                 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Деталь      {name_detail}");
