@@ -68,9 +68,9 @@ namespace Сoursework
         public void ShowSuppliersForDetail(string namedetail)
         {
             int indexdetail = SearchDetailByName(namedetail);
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             ShowDetail(DetailsList[indexdetail]);
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{namedetail} возможно купить у следующих поставщиков:\n");
             for (int i = 0; i < SuppliersList.Count; i++)
             {

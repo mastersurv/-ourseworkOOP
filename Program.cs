@@ -17,12 +17,13 @@ namespace Сoursework
 			{
 				if (!canwebuydetail)
 				{
-					throw new Exception("Данную деталь невозможно заказать!");
+					throw new Exception("Данную деталь невозможно заказать, у неё нет поставщиков.");
 				}
 			}
 			catch (Exception e)
 			{
-				Console.ForegroundColor = ConsoleColor.DarkRed;
+				Console.Clear();
+				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine($"Ошибка: {e.Message}"); 
 				Console.ForegroundColor = ConsoleColor.White;
 				return (false);
@@ -37,10 +38,8 @@ namespace Сoursework
 			string base_suppliers = "basesuppliers.txt";
 			string base_details = "basedetails.txt";
 			string path_supplies = "supplies.txt";
-			string accountfile = "account.txt";
 			Suppliers sup = new Suppliers();
 			Details detail = new Details();
-			Supplies supplies = new Supplies(path_suppliers, path_details);
 			Account purchoice = new Account(path_suppliers, path_details);
 			ClearAndReadFiles carf = new ClearAndReadFiles();
 			bool version_account = false;
@@ -58,7 +57,7 @@ namespace Сoursework
 				Console.WriteLine("2 - добавить поставщиков (считать из файла):");
 				Console.WriteLine("3 - вывести информацию о поставщиках");
 				Console.WriteLine("4 - удалить данные о поставщиках");
-				Console.WriteLine("5 - удалить последнего поставщика");
+				Console.WriteLine("5 - удалить поставщика");
 				
 				Console.ForegroundColor = ConsoleColor.Cyan;
 				Console.WriteLine("\n|-----Детали--------|");
@@ -83,7 +82,7 @@ namespace Сoursework
 				bool check = Int32.TryParse(Console.ReadLine(), out choose);
 				if (!check)
 				{
-					Console.ForegroundColor = ConsoleColor.DarkRed;
+					Console.ForegroundColor = ConsoleColor.Red;
 					Console.WriteLine("Нет такого пункта меню");
 					Console.ForegroundColor = ConsoleColor.White;
 					continue;
@@ -105,6 +104,7 @@ namespace Сoursework
 					Console.Clear();
 					carf.AddInfoFromFile(base_suppliers, path_suppliers, "Данные о поставщиках" +
 					                                                    " были успешно добавлены");
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 3)
 				{
@@ -116,17 +116,20 @@ namespace Сoursework
 				{
 					Console.Clear();
 					carf.ClearFile(path_suppliers, "Все данные о поставщиках стёрты.");
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 5)
 				{
 					Console.Clear();
 					sup.ClearLastSupplier(path_suppliers);
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 6)
 				{
 					Console.Clear();
 					carf.AddInfoFromFile(base_details, path_details, "Данные о деталях" +
 					                                                   " были успешно добавлены");
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 7)
 				{
@@ -138,11 +141,14 @@ namespace Сoursework
 				{
 					Console.Clear();
 					carf.ClearFile(path_details, "Все данные о деталях стёрты.");
+					PressAnyKeyToContinue();
 				}
 				else if (choose == 11)
 				{
+					Supplies supplies = new Supplies(path_suppliers, path_details);
+					
 					Console.Clear();
-					Console.ForegroundColor = ConsoleColor.DarkGreen;
+					Console.ForegroundColor = ConsoleColor.Green;
 					int purchasechoice;
 					Console.WriteLine("Введите 1 если хотите конкретную деталь");
 					Console.WriteLine("Введите 2, чтобы увидеть список всех доступных деталей");
@@ -180,6 +186,7 @@ namespace Сoursework
 						bool availability = ErrorCheckAvailDetail(canwebuydetail);
 						if (!availability)
 						{
+							PressAnyKeyToContinue();
 							continue;
 						}
 						
@@ -197,7 +204,8 @@ namespace Сoursework
 				else if (choose == 13)
 				{
 					Console.Clear();
-					carf.ClearFile(accountfile, "Все данные о заказах стёрты.");
+					carf.ClearFile(path_supplies, "Все данные о заказах стёрты.");
+					PressAnyKeyToContinue();
 				}
             }
 		}

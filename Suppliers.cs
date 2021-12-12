@@ -83,13 +83,12 @@ namespace Сoursework
 			sr.Close();
 		}
 
-		public static void DeleteLastLine(string filepath)
+		public static void DeleteLine(string filepath, int number)
 		{
 			StreamReader sr = new StreamReader(filepath);
 			string alllines = sr.ReadToEnd();
 			List <string> arrstring = new List<string>(alllines.Split('\n'));
-			int n = arrstring.Count - 1;
-			arrstring.RemoveAt(n);
+			arrstring.RemoveAt(number);
 			alllines = String.Join("\n", arrstring.ToArray());
 			sr.Close();
 			StreamWriter sw = new StreamWriter(filepath);
@@ -97,9 +96,24 @@ namespace Сoursework
 			sw.Close();
 		}
 
+		public static int NumberLastSupplier(string filepath)
+		{
+			StreamReader sr = new StreamReader(filepath);
+			string alllines = sr.ReadToEnd();
+			sr.Close();
+			
+			List <string> arrstring = new List<string>(alllines.Split('\n'));
+			int n = arrstring.Count - 1;
+			return (n);
+		}
+
 		public void ClearLastSupplier(string path)
 		{
-			Console.Write("Удалить последнего поставщика? ");
+			Console.Write($"Введите номер удаляемоего поставщика (номер последнего - {NumberLastSupplier(path)}): ");
+			int number;
+			Int32.TryParse(Console.ReadLine(), out number);
+			
+			Console.Write($"Удалить {number}-ого поставщика? ");
 			string certainty = Console.ReadLine();
 			StreamReader sr = new StreamReader(path);
 			string checkfile = sr.ReadLine();
@@ -109,14 +123,16 @@ namespace Сoursework
 			{
 				if (certainty == "Да" || certainty == "да" || certainty == "д" || certainty == "Д" || certainty == "y")
 				{
-					DeleteLastLine(path);
+					DeleteLine(path, number);
 					Console.ForegroundColor = ConsoleColor.Green;
-					Console.WriteLine("Последний поставщик был удалён");
+					Console.WriteLine($"\nПоставщик {number} был удалён");
 					Console.ForegroundColor = ConsoleColor.White;
 				}
 				else
 				{
-					Console.WriteLine("Введите Да/да/д/Д/y чтобы удалить последнего поставщика");
+					Console.ForegroundColor = ConsoleColor.Red;
+					Console.WriteLine("Введите Да/да/д/Д/y чтобы удалить поставщика");
+					Console.ForegroundColor = ConsoleColor.White;
 					return;
 				}
 			}

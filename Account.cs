@@ -56,10 +56,10 @@ namespace Сoursework
 				int sum = currentprice * count;
 				//printLinewithColor(Convert.ToString(sum), "Итого по заказу: ");
 				table.AddRow(arrline[1], arrline[2], arrline[0], arrline[4], arrline[3], Convert.ToString(sum));
-				Console.WriteLine();
 				TotalSum += sum;
 			}
-			table.Write(Format.Default);
+			Console.WriteLine();
+			table.Write(Format.Alternative);
 			sr.Close();
 			string totalsum = Convert.ToString(TotalSum);
 			TotalSum = 0;
