@@ -9,7 +9,6 @@ namespace Сoursework
 		{
 			int password;
 			Console.Write("Введите пароль: ");
-			// password = Convert.ToInt32(Console.ReadLine());
 			Int32.TryParse(Console.ReadLine(), out password);
 			if (password == 2240)
 			{
