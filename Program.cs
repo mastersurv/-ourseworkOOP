@@ -63,16 +63,17 @@ namespace Сoursework
 				Console.WriteLine("\n|-----Детали--------|");
 				Console.WriteLine("6 - добавить детали (считать из файла):");
 				Console.WriteLine("7 - вывести информацию о деталях");
-				Console.WriteLine("8 - удалить данных о деталях");
+				Console.WriteLine("8 - удалить данные о деталях");
+				Console.WriteLine("11 - удалить деталь");
 				
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("\n|-----Закупка автозапчастей--------|");
-				Console.WriteLine("11 - перейти в меню покупки деталей:");
+				Console.WriteLine("12 - перейти в меню покупки деталей:");
 				
 				Console.ForegroundColor = ConsoleColor.DarkYellow;
 				Console.WriteLine("\n|-----$Отчёт$--------|");
-				Console.WriteLine("12 - вывести отчёт о заказах:");
-				Console.WriteLine("13 - удалить данные о заказах");
+				Console.WriteLine("13 - вывести отчёт о заказах:");
+				Console.WriteLine("14 - удалить данные о заказах");
 				
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.Write("\nХ 0 - завершить программу Х\n");
@@ -121,7 +122,7 @@ namespace Сoursework
 				else if (choose == 5)
 				{
 					Console.Clear();
-					sup.ClearLastSupplier(path_suppliers);
+					sup.DeleteOneEntry(path_suppliers);
 					PressAnyKeyToContinue();
 				}
 				else if (choose == 6)
@@ -144,6 +145,12 @@ namespace Сoursework
 					PressAnyKeyToContinue();
 				}
 				else if (choose == 11)
+				{
+					Console.Clear();
+					detail.DeleteOneEntry(path_details);
+					PressAnyKeyToContinue();
+				}
+				else if (choose == 12)
 				{
 					Supplies supplies = new Supplies(path_suppliers, path_details);
 					
@@ -216,13 +223,13 @@ namespace Сoursework
 						PressAnyKeyToContinue();
 					}
 				}
-				else if (choose == 12)
+				else if (choose == 13)
 				{
 					Console.Clear();
 					purchoice.PrintAccount(path_supplies);
 					PressAnyKeyToContinue();
 				}
-				else if (choose == 13)
+				else if (choose == 14)
 				{
 					Console.Clear();
 					carf.ClearFile(path_supplies, "Все данные о заказах стёрты.");

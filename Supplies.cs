@@ -179,7 +179,7 @@ namespace Сoursework
                     break;
                 }
             }
-            
+            sr.Close();
             var fileContents = System.IO.File.ReadAllText(path_detail);
             fileContents = fileContents.Replace(need_replace, new_line);
             System.IO.File.WriteAllText(path_detail, fileContents);

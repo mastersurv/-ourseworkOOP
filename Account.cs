@@ -19,10 +19,6 @@ namespace Сoursework
 				totalsum = value;
 			}
 		}
-		// public Account(string filepathsuppliers, string filepathdetails) : base(filepathsuppliers, filepathdetails)
-		// {
-		// 	
-		// }
 		
 		public void printLinewithColor(string str, string message)
 		{

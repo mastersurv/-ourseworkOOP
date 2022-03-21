@@ -8,7 +8,7 @@ namespace Сoursework
 	class Suppliers //Поставщики
 	{
 		string supplier;
-		string name_detail;
+		protected string name_detail;
 		string address;
 		string phone_number;
 		
@@ -30,7 +30,7 @@ namespace Сoursework
 			}
 		}
 
-		public virtual string NameDetail
+		public string NameDetail
 		{
 			get
 			{
@@ -82,11 +82,20 @@ namespace Сoursework
 			sr.Close();
 		}
 
-		public static void DeleteLine(string filepath, int number)
+		public static void DeleteLine(string filepath, int number, out bool check_can_delete)
 		{
+			check_can_delete = true;
 			StreamReader sr = new StreamReader(filepath);
 			string alllines = sr.ReadToEnd();
 			List <string> arrstring = new List<string>(alllines.Split('\n'));
+			if (number > arrstring.Count)
+            {
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("Нет такой записи.");
+				Console.ForegroundColor = ConsoleColor.White;
+				check_can_delete = false;
+				return;
+            }
 			arrstring.RemoveAt(number);
 			alllines = String.Join("\n", arrstring.ToArray());
 			sr.Close();
@@ -106,7 +115,7 @@ namespace Сoursework
 			return (n);
 		}
 
-		public void ClearLastSupplier(string path)
+		public virtual void DeleteOneEntry(string path)
 		{
 			Console.Write($"Введите номер удаляемоего поставщика (номер последнего - {NumberLastSupplier(path)}): ");
 			int number;
@@ -122,7 +131,10 @@ namespace Сoursework
 			{
 				if (certainty == "Да" || certainty == "да" || certainty == "д" || certainty == "Д" || certainty == "y")
 				{
-					DeleteLine(path, number);
+					bool check_can_delete = true;
+					DeleteLine(path, number, out check_can_delete);
+					if (!check_can_delete)
+						return;
 					Console.ForegroundColor = ConsoleColor.Green;
 					Console.WriteLine($"\nПоставщик {number} был удалён");
 					Console.ForegroundColor = ConsoleColor.White;
